@@ -1,0 +1,28 @@
+Package: csdm
+Title: Catch Saturation-Depletion Models with R and STAN
+Version: 0.0.0.9000
+Authors@R: c(
+    person("Valentin", "Lucet", email = "valentin.lucet@gmail.com", role = c("aut", "cre")),
+    person("Eric", "Pedersen", email = "eric.pedersen@concordia.ca", role = c("aut")))
+Description: A tool for catch saturation-depletion models with R and STAN.
+License: MIT + file LICENSE
+Encoding: UTF-8
+Roxygen: list(markdown = TRUE)
+RoxygenNote: 7.1.2
+Biarch: true
+Depends: 
+    R (>= 3.4.0)
+Imports: 
+    methods,
+    Rcpp (>= 0.12.0),
+    RcppParallel (>= 5.0.1),
+    rstan (>= 2.18.1),
+    rstantools (>= 2.1.1)
+LinkingTo: 
+    BH (>= 1.66.0),
+    Rcpp (>= 0.12.0),
+    RcppEigen (>= 0.3.3.3.0),
+    RcppParallel (>= 5.0.1),
+    rstan (>= 2.18.1),
+    StanHeaders (>= 2.18.0)
+SystemRequirements: GNU make
