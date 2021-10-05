@@ -4,14 +4,42 @@
 \alias{csdm}
 \title{Bayesian catch saturation-depletion model}
 \usage{
-csdm(x, y, ...)
+csdm(
+  data,
+  cpue_var = cpue,
+  effort_var = effort,
+  timeseries_formula = ~1,
+  q_formula = ~1,
+  s_formula = ~1,
+  lower = c(B0 = 100, q = 1e-10, s = 1),
+  upper = c(B0 = 1e+10, q = 0.001, s = 100),
+  prior = NULL,
+  n_chains = 4,
+  n_samples = 500
+)
 }
 \arguments{
-\item{x}{To change}
+\item{data}{\strong{[data.frame]} The data.}
 
-\item{y}{To change}
+\item{cpue_var}{\strong{[name]} Variable of the data corresponding to cpue.}
 
-\item{...}{To change}
+\item{effort_var}{\strong{[name]} Variable of the data corresponding to effort.}
+
+\item{timeseries_formula}{\strong{[formula]} Formula for time series grouping.}
+
+\item{q_formula}{\strong{[formula]} Formula for q.}
+
+\item{s_formula}{\strong{[formula]} Formula for s.}
+
+\item{lower}{\strong{[named numeric vector]} Lower bounds of catch estimate.}
+
+\item{upper}{\strong{[named numeric vector]} Upper bounds of catch estimate.}
+
+\item{prior}{\strong{[NA]} NULL for now}
+
+\item{n_chains}{\strong{[numeric]} Number of chains, default to 4.}
+
+\item{n_samples}{\strong{[numeric]} Number of samples, default to 500 (TBC).}
 }
 \value{
 An object of class \code{stanfit} returned by \code{rstan::sampling}.

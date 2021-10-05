@@ -3,7 +3,6 @@
 \docType{package}
 \name{csdm-package}
 \alias{csdm-package}
-\alias{csdm}
 \title{The 'csdm' package.}
 \description{
 A tool for catch saturation-depletion models with R and STAN

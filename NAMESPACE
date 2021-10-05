@@ -3,5 +3,7 @@
 export(csdm)
 import(Rcpp)
 import(methods)
+importFrom(lme4,isNested)
 importFrom(rstan,sampling)
+importFrom(stats,terms)
 useDynLib(csdm, .registration = TRUE)
