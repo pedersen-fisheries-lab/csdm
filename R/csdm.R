@@ -10,12 +10,15 @@
 #' @param s_formula **\[formula\]** Formula for s.
 #' @param lower **\[named numeric vector\]** Lower bounds of catch estimate.
 #' @param upper **\[named numeric vector\]** Upper bounds of catch estimate.
-#' @param prior **\[NA\]** NULL for now
+#' @param priors **\[NA\]** List of priors
 #' @param n_chains **\[numeric\]** Number of chains, default to 4.
 #' @param n_samples **\[numeric\]** Number of samples, default to 500 (TBC).
 #'
 #' @return
 #' An object of class `stanfit` returned by `rstan::sampling`.
+#'
+#' @details
+#' Describe: model + priors
 #'
 #' @export
 csdm <- function(data,
@@ -26,7 +29,7 @@ csdm <- function(data,
                  s_formula = ~1,
                  lower = c(B0 = 100, q = 1e-10, s = 1),
                  upper = c(B0 = 1e10, q = 1e-3, s = 100),
-                 prior = NULL,
+                 priors = NULL,
                  n_chains = 4,
                  n_samples = 500) {
 
@@ -35,7 +38,7 @@ csdm <- function(data,
   cpue <- dplyr::select(data,!!cpue_var)[[1]]
   effort <- dplyr::select(data,!!effort_var)[[1]]
 
-  #Initial error checking
+  # Initial error checking
   if(!is.numeric(cpue)) {
     stop("CPUE has to be a numeric column")
   }
@@ -47,7 +50,7 @@ csdm <- function(data,
     stop("NA and NaN values are not valid entries for CPUE or cumulative effort")
   }
 
-  # transforming each level
+  # Transforming each level
   ts_fac <- get_factor(timeseries_formula, data)
   q_fac <- get_factor(q_formula, data)
   s_fac <- get_factor(s_formula, data)
@@ -95,7 +98,7 @@ csdm <- function(data,
 
   gg <- matrix(c(ts_numeric,q_numeric,s_fac),byrow = FALSE,ncol = 3)
 
-  #setting up the model data
+  # Setting up the model data
   model_data <- list(N=N,
                      G = G,
                      gg = gg,
@@ -105,41 +108,22 @@ csdm <- function(data,
                      lnq_range = c(log(lower[["q"]]), log(upper[["q"]])),
                      lns_range = c(log(lower[["s"]]), log(upper[["s"]])))
 
-  #getting priors set up to combine with the model data
-  prior_defaults <- list(
-    B0_logmean_prior = log(50000), #assuming about 50,000 kg as a default
-    lnq_mean_prior = log(1e-5),
-    lns_mean_prior = log(30),
+  # Manipualte priors
+  model_priors <- get_default_priors()
 
-    #assuming a large amount of variability around estimated biomasses; basically
-    #the standard deviation is +/- 5 times the prior mean for parameters, and
-    # about a 10-fold variation in B0
-    B0_logmean_prior_sd = log(10),
-    lnq_mean_prior_sd = log(5),
-    lns_mean_prior_sd = log(5),
+  if (!is.null(priors)){
 
-    #these are the priors on the estimated standard deviations for between-group
-    #variability; I've put relatively tight priors on these, as otherwise the
-    #model is liable to explode
-    B0_group_prior_logsd = log(5),
-    lnq_group_prior_sd   = log(1.5),
-    lns_group_prior_sd   = log(1.5),
+    if (!all(names(priors) %in% names(model_priors))) {
+      stop(paste("priors parameters ",
+                 names(priors)[which(!names(priors)%in%names(model_priors))],
+                 " are not priors parameters in this model.",sep = " "))
+    }
 
-    #prior for the standard deviation of process error around observed cpue
-    cpue_process_error_prior_sd = 1
-  )
+    model_priors[names(priors)] <- priors[names(priors)]
 
-  if(!all(names(prior)%in%names(prior_defaults))) {
-    stop(paste("prior parameters ",
-               names(prior)[which(!names(prior)%in%names(prior_defaults))],
-               " are not prior parameters in this model.",sep = " "))
   }
 
-  model_priors <- prior_defaults
-  model_priors[names(prior)] <- prior[names(prior)]
-
   model_data <- c(model_data, model_priors)
-
   model_samples <- csdm_stan(data = model_data,
                              chains = n_chains,
                              iter = n_samples)

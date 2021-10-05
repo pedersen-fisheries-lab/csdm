@@ -13,7 +13,7 @@ csdm(
   s_formula = ~1,
   lower = c(B0 = 100, q = 1e-10, s = 1),
   upper = c(B0 = 1e+10, q = 0.001, s = 100),
-  prior = NULL,
+  priors = NULL,
   n_chains = 4,
   n_samples = 500
 )
@@ -35,7 +35,7 @@ csdm(
 
 \item{upper}{\strong{[named numeric vector]} Upper bounds of catch estimate.}
 
-\item{prior}{\strong{[NA]} NULL for now}
+\item{priors}{\strong{[NA]} List of priors}
 
 \item{n_chains}{\strong{[numeric]} Number of chains, default to 4.}
 
@@ -46,4 +46,7 @@ An object of class \code{stanfit} returned by \code{rstan::sampling}.
 }
 \description{
 Catch saturation-depletion model.
+}
+\details{
+Describe: model + priors
 }
