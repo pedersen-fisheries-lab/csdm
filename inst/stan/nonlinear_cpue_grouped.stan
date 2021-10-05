@@ -15,7 +15,7 @@ data {
   //in the groups for B0, lnq, and lns (although these variables can be crossed with each other)
   //gg indicates the grouping levels for each parameter. first column: the time series/B0
   // second column is for lnq, and third is for lns
-  // Check ordering
+  // TODO: Check ordering
   int<lower=1,upper=G[1]> gg[N,3];
   vector[N] cpue_obs;
   real effort[N];
@@ -49,8 +49,6 @@ transformed data{
   int gg_start[G[1]];
   int gg_end[G[1]];
   int gg_length[G[1]];
-
-
 
   // NOTE: This very strongly assumes that the groups are ordered sequentially, so that
   // all values for group 1 occur before group 2 (etc.) and all values for each group are
