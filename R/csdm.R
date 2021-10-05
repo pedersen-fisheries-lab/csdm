@@ -36,19 +36,31 @@ csdm <- function(data,
   effort <- dplyr::select(data,!!effort_var)[[1]]
 
   #Initial error checking
-  if(!is.numeric(cpue)) stop("CPUE has to be a numeric column")
-  if(!is.numeric(effort)) stop("cumulative_effort has to be a numeric column")
+  if(!is.numeric(cpue)) {
+    stop("CPUE has to be a numeric column")
+  }
+  if(!is.numeric(effort)) {
+    stop("cumulative_effort has to be a numeric column")
+  }
   stopifnot(length(cpue)==length(effort))
-  if(any(is.na(cpue))|any(is.na(effort))|any(is.nan(cpue))|any(is.nan(effort))) stop("NA and NaN values are not valid entries for CPUE or cumulative effort")
+  if(any(is.na(cpue))|any(is.na(effort))|any(is.nan(cpue))|any(is.nan(effort))) {
+    stop("NA and NaN values are not valid entries for CPUE or cumulative effort")
+  }
 
   # transforming each level
   ts_fac <- get_factor(timeseries_formula, data)
   q_fac <- get_factor(q_formula, data)
   s_fac <- get_factor(s_formula, data)
 
-  if(!is.factor(ts_fac)) stop("Time series grouping variable has to be a factor")
-  if(!is.factor(q_fac)) stop("q grouping variable has to be a factor")
-  if(!is.factor(s_fac)) stop("s grouping variable has to be a factor")
+  if(!is.factor(ts_fac)) {
+    stop("Time series grouping variable has to be a factor")
+  }
+  if(!is.factor(q_fac)) {
+    stop("q grouping variable has to be a factor")
+  }
+  if(!is.factor(s_fac)) {
+    stop("s grouping variable has to be a factor")
+  }
 
   G_ts <- length(levels(ts_fac))
   G_q <- length(levels(q_fac))
@@ -57,15 +69,25 @@ csdm <- function(data,
   N <- nrow(data)
   G <- c(G_ts, G_q, G_s)
 
-  if(G_ts > length(unique(ts_fac))) warning("There are levels in the time series group (ts_fac) that are not present in the data")
-  if(G_q  > length(unique(q_fac))) warning("There are levels in the q group (q_fac) that are not present in the data")
-  if(G_s  > length(unique(s_fac))) warning("There are levels in the s group (s_fac) that are not present in the data")
+  if(G_ts > length(unique(ts_fac))) {
+    warning("There are levels in the time series group (ts_fac) that are not present in the data")
+  }
+  if(G_q  > length(unique(q_fac))) {
+    warning("There are levels in the q group (q_fac) that are not present in the data")
+  }
+  if(G_s  > length(unique(s_fac))) {
+    warning("There are levels in the s group (s_fac) that are not present in the data")
+  }
 
   # Checking for nesting of the time-series factor. Currently using the isNested
   # function from lme4 to check this, but I'll just duplicate this function for
   # the final package, to cut dependencies down
-  if(!lme4::isNested(ts_fac, q_fac)) stop("Time series grouping variable has to be nested in the q grouping variable")
-  if(!lme4::isNested(ts_fac, s_fac)) stop("Time series grouping variable has to be nested in the s grouping variable")
+  if(!lme4::isNested(ts_fac, q_fac)) {
+    stop("Time series grouping variable has to be nested in the q grouping variable")
+  }
+  if(!lme4::isNested(ts_fac, s_fac)) {
+    stop("Time series grouping variable has to be nested in the s grouping variable")
+  }
 
   ts_numeric <- as.numeric(ts_fac)
   q_numeric <- as.numeric(q_fac)
@@ -107,7 +129,11 @@ csdm <- function(data,
     cpue_process_error_prior_sd = 1
   )
 
-  if(!all(names(prior)%in%names(prior_defaults))) stop(paste("prior parameters ", names(prior)[which(!names(prior)%in%names(prior_defaults))], " are not prior parameters in this model.",sep = " "))
+  if(!all(names(prior)%in%names(prior_defaults))) {
+    stop(paste("prior parameters ",
+               names(prior)[which(!names(prior)%in%names(prior_defaults))],
+               " are not prior parameters in this model.",sep = " "))
+  }
 
   model_priors <- prior_defaults
   model_priors[names(prior)] <- prior[names(prior)]
