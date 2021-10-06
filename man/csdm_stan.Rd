@@ -2,18 +2,12 @@
 % Please edit documentation in R/csdm_stan.R
 \name{csdm_stan}
 \alias{csdm_stan}
-\title{Bayesian catch saturation-depletion model}
+\title{Bayesian catch saturation-depletion model (stan routine)}
 \usage{
-csdm_stan(data, chains, iter, ...)
+csdm_stan(data, ...)
 }
 \arguments{
 \item{data}{\strong{[list]} Data to run the model, passed as a list.}
-
-\item{chains}{A positive integer specifying the number of Markov chains. 
-    The default is 4.}
-
-\item{iter}{A positive integer specifying the number of iterations for each 
-    chain (including warmup). The default is 2000.}
 
 \item{...}{Additional arguments to pass to \link[rstan:stanmodel-method-sampling]{sampling}.}
 }
@@ -21,5 +15,5 @@ csdm_stan(data, chains, iter, ...)
 An object of class \code{stanfit} returned by \link[rstan:stanmodel-method-sampling]{sampling}.
 }
 \description{
-Catch saturation-depletion model.
+Stan routine for the catch saturation-depletion model.
 }

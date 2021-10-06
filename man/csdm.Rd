@@ -14,12 +14,11 @@ csdm(
   lower = c(B0 = 100, q = 1e-10, s = 1),
   upper = c(B0 = 1e+10, q = 0.001, s = 100),
   priors = NULL,
-  n_chains = 4,
-  n_samples = 500
+  ...
 )
 }
 \arguments{
-\item{data}{\strong{[data.frame]} The data.}
+\item{data}{\strong{[data.frame]} The cpue and effort timeseries.}
 
 \item{cpue_var}{\strong{[name]} Variable of the data corresponding to cpue.}
 
@@ -35,11 +34,9 @@ csdm(
 
 \item{upper}{\strong{[named numeric vector]} Upper bounds of catch estimate.}
 
-\item{priors}{\strong{[NA]} List of priors}
+\item{priors}{\strong{[NA]} List of priors.}
 
-\item{n_chains}{\strong{[numeric]} Number of chains, default to 4.}
-
-\item{n_samples}{\strong{[numeric]} Number of samples, default to 500 (TBC).}
+\item{...}{Additional arguments to pass to \link[rstan:stanmodel-method-sampling]{sampling}.}
 }
 \value{
 An object of class \code{stanfit} returned by \code{rstan::sampling}.

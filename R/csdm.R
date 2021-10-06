@@ -2,7 +2,7 @@
 #'
 #' Catch saturation-depletion model.
 #'
-#' @param data **\[data.frame\]** The data.
+#' @param data **\[data.frame\]** The cpue and effort timeseries.
 #' @param cpue_var **\[name\]** Variable of the data corresponding to cpue.
 #' @param effort_var **\[name\]** Variable of the data corresponding to effort.
 #' @param timeseries_formula **\[formula\]** Formula for time series grouping.
@@ -10,9 +10,8 @@
 #' @param s_formula **\[formula\]** Formula for s.
 #' @param lower **\[named numeric vector\]** Lower bounds of catch estimate.
 #' @param upper **\[named numeric vector\]** Upper bounds of catch estimate.
-#' @param priors **\[NA\]** List of priors
-#' @param n_chains **\[numeric\]** Number of chains, default to 4.
-#' @param n_samples **\[numeric\]** Number of samples, default to 500 (TBC).
+#' @param priors **\[NA\]** List of priors.
+#' @param ... Additional arguments to pass to [sampling][rstan::sampling].
 #'
 #' @return
 #' An object of class `stanfit` returned by `rstan::sampling`.
@@ -27,11 +26,12 @@ csdm <- function(data,
                  timeseries_formula = ~1,
                  q_formula = ~1,
                  s_formula = ~1,
+
                  lower = c(B0 = 100, q = 1e-10, s = 1),
                  upper = c(B0 = 1e10, q = 1e-3, s = 100),
+
                  priors = NULL,
-                 n_chains = 4,
-                 n_samples = 500) {
+                 ...) {
 
   cpue_var <- rlang::enquo(cpue_var)
   effort_var <- rlang::enquo(effort_var)
@@ -124,8 +124,6 @@ csdm <- function(data,
   }
 
   model_data <- c(model_data, model_priors)
-  model_samples <- csdm_stan(data = model_data,
-                             chains = n_chains,
-                             iter = n_samples)
+  model_samples <- csdm_stan(data = model_data, ...)
   return(model_samples)
 }
