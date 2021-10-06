@@ -1,10 +1,10 @@
 functions {
-real[]  saturating_dynamics(real time, real[] state, real[] theta, real[] x_r, int[] x_i){
-  real dxdt[1];
-  //assumes that the parameters are in untransformed form, and are in the order q, s
-  dxdt[1] = -state[1]*theta[1]/(1+state[1]*theta[1]/theta[2]);
-  return dxdt;
-}
+  real[]  saturating_dynamics(real time, real[] state, real[] theta, real[] x_r, int[] x_i){
+    real dxdt[1];
+    //assumes that the parameters are in untransformed form, and are in the order q, s
+    dxdt[1] = -state[1]*theta[1]/(1+state[1]*theta[1]/theta[2]);
+    return dxdt;
+  }
 }
 
 data {
@@ -152,7 +152,7 @@ model {
     for(n in g_start:g_end){
       state[1] = biomass_ts[n];
       biomass_expected[n:n] = integrate_ode_rk45(saturating_dynamics, state,0,
-                                  effort[n:n],dyn_pars,x_r,x_i);
+      effort[n:n],dyn_pars,x_r,x_i);
 
       cpue_expected[n] = (biomass_ts[n]-biomass_expected[n,1])/effort[n];
     }
@@ -162,7 +162,7 @@ model {
 }
 
 generated quantities{
-    vector[N] cpue_fit; //this returns the fitted time series of cpue
+  vector[N] cpue_fit; //this returns the fitted time series of cpue
   {
     real biomass_expected_ts[N,1];
     for(g in 1:G[1]){
@@ -179,11 +179,11 @@ generated quantities{
       dyn_pars[1] = q[lnq_current];
       dyn_pars[2] = s[lns_current];
       biomass_expected_ts[g_start:g_end] = integrate_ode_rk45(saturating_dynamics, state,0,
-                                  cumulative_sum(effort[g_start:g_end]),dyn_pars,x_r,x_i);
+      cumulative_sum(effort[g_start:g_end]),dyn_pars,x_r,x_i);
       for(n in g_start:g_end){
         cpue_fit[n] = q[lnq_current]*biomass_expected_ts[n,1]/(1+q[lnq_current]/s[lns_current]*biomass_expected_ts[n,1]);
       }
-  }
+    }
 
   }
 }
