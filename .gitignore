@@ -2,3 +2,5 @@
 *.dll
 *.o
 *.so
+renv
+renv.lock
