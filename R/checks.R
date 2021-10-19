@@ -4,7 +4,6 @@ check_input_vars <- function(catch, effort, data) {
 
   checkmate::test_string(catch)
   checkmate::test_string(effort)
-  checkmate::test_string(time)
   checkmate::test_data_frame(data)
 
   if(!checkmate::test_choice(catch, names(data))){
