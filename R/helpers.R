@@ -20,7 +20,7 @@ get_factor <- function(formula, data, keep_all_levels = FALSE){
     }
 
     f_vars <- attr(f_terms,"variables")
-    out <- with(data, interaction(eval(f_vars), drop = T,sep = ":"))
+    out <- with(data, interaction(eval(f_vars), drop = T, sep = ":"))
 
   }
 
@@ -29,13 +29,9 @@ get_factor <- function(formula, data, keep_all_levels = FALSE){
   return(out)
 }
 
-# Function to check the validity of priors supplied, to be written
-check_priors <- function(prior_list) {
-  return(NULL)
-}
-
 # Get the default priors
 get_default_priors <- function(){
+
   list(
     # Assuming about 50,000 kg as a default
     B0_logmean_prior = log(50000),
@@ -59,4 +55,5 @@ get_default_priors <- function(){
     # Prior for the standard deviation of process error around observed cpue
     cpue_process_error_prior_sd = 1
   )
+
 }
