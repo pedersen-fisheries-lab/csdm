@@ -58,6 +58,7 @@ csdm <- function(catch = catch,
   if (!is.null(biomass)) {
     ts_fac <- get_factor(biomass, data)
   } else {
+    warning("No biomass formula provided, applying the formula for q to biomass.")
     ts_fac <- q_fac
   }
 
