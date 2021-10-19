@@ -11,7 +11,6 @@
 #' @import methods
 #' @import Rcpp
 #' @importFrom rstan sampling
-#' @importFrom lme4 isNested
 #' @importFrom stats terms
 #'
 #' @references
