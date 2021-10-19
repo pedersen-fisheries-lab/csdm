@@ -5,12 +5,12 @@
 \title{Bayesian catch saturation-depletion model}
 \usage{
 csdm(
+  catch = catch,
+  effort = effort,
+  biomass = NULL,
+  q = ~1,
+  s = ~1,
   data,
-  cpue_var = cpue,
-  effort_var = effort,
-  timeseries_formula = ~1,
-  q_formula = ~1,
-  s_formula = ~1,
   lower = c(B0 = 100, q = 1e-10, s = 1),
   upper = c(B0 = 1e+10, q = 0.001, s = 100),
   priors = NULL,
@@ -18,17 +18,18 @@ csdm(
 )
 }
 \arguments{
-\item{data}{\strong{[data.frame]} The cpue and effort timeseries.}
+\item{catch}{\strong{[name]} Variable name for catch (catch).}
 
-\item{cpue_var}{\strong{[name]} Variable of the data corresponding to cpue.}
+\item{effort}{\strong{[name]} Variable name for effort.}
 
-\item{effort_var}{\strong{[name]} Variable of the data corresponding to effort.}
+\item{biomass}{\strong{[name]} Formula for biomass. If not provided, inferred
+from the formula for parameter q.}
 
-\item{timeseries_formula}{\strong{[formula]} Formula for time series grouping.}
+\item{q}{\strong{[formula]} Formula for parameter q.}
 
-\item{q_formula}{\strong{[formula]} Formula for q.}
+\item{s}{\strong{[formula]} Formula for parameter s.}
 
-\item{s_formula}{\strong{[formula]} Formula for s.}
+\item{data}{\strong{[data.frame]} The timeseries data to fit the model with.}
 
 \item{lower}{\strong{[named numeric vector]} Lower bounds of catch estimate.}
 
@@ -45,5 +46,5 @@ An object of class \code{stanfit} returned by \code{rstan::sampling}.
 Catch saturation-depletion model.
 }
 \details{
-Describe: model + priors
+TODO: describe model + priors.
 }
