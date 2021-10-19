@@ -101,6 +101,7 @@ transformed parameters{
   vector[G[3]] s;
   // This makes sure that the intial biomass is *at least* as big as the total caught
   vector[G[1]]  B0 = B0_raw + total_caught;
+  real  lnB0_mean = log(B0_mean);
   vector[N] biomass_ts;
   for(i in 1:G[1]){
     biomass_ts[gg_start[i]] = B0[i];
@@ -132,7 +133,10 @@ model {
   lns_group_sd  ~ normal(0, lns_group_prior_sd);
 
   // Priors for group-level parameters
-  B0 ~ lognormal(log(B0_mean),B0_group_logsd);
+  for(i in 1:G[1]){
+    // B0 ~ lognormal(lnB0_mean,B0_group_logsd);
+    target += lognormal_lpdf(B0[i]|lnB0_mean,B0_group_logsd);
+  }
   lnq ~ normal(lnq_mean,lnq_group_sd);
   lns ~ normal(lns_mean,lns_group_sd);
 

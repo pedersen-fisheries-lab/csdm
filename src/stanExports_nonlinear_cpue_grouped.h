@@ -33,7 +33,7 @@ static int current_statement_begin__;
 stan::io::program_reader prog_reader__() {
     stan::io::program_reader reader;
     reader.add_event(0, 0, "start", "model_nonlinear_cpue_grouped");
-    reader.add_event(191, 189, "end", "model_nonlinear_cpue_grouped");
+    reader.add_event(195, 193, "end", "model_nonlinear_cpue_grouped");
     return reader;
 }
 template <typename T0__, typename T1__, typename T2__, typename T3__>
@@ -695,30 +695,36 @@ public:
             stan::math::fill(B0, DUMMY_VAR__);
             stan::math::assign(B0,add(B0_raw, total_caught));
             current_statement_begin__ = 104;
+            local_scalar_t__ lnB0_mean;
+            (void) lnB0_mean;  // dummy to suppress unused var warning
+            stan::math::initialize(lnB0_mean, DUMMY_VAR__);
+            stan::math::fill(lnB0_mean, DUMMY_VAR__);
+            stan::math::assign(lnB0_mean,stan::math::log(B0_mean));
+            current_statement_begin__ = 105;
             validate_non_negative_index("biomass_ts", "N", N);
             Eigen::Matrix<local_scalar_t__, Eigen::Dynamic, 1> biomass_ts(N);
             stan::math::initialize(biomass_ts, DUMMY_VAR__);
             stan::math::fill(biomass_ts, DUMMY_VAR__);
             // transformed parameters block statements
-            current_statement_begin__ = 105;
+            current_statement_begin__ = 106;
             for (int i = 1; i <= get_base1(G, 1, "G", 1); ++i) {
-                current_statement_begin__ = 106;
+                current_statement_begin__ = 107;
                 stan::model::assign(biomass_ts, 
                             stan::model::cons_list(stan::model::index_uni(get_base1(gg_start, i, "gg_start", 1)), stan::model::nil_index_list()), 
                             get_base1(B0, i, "B0", 1), 
                             "assigning variable biomass_ts");
-                current_statement_begin__ = 107;
+                current_statement_begin__ = 108;
                 for (int j = 1; j <= (get_base1(gg_length, i, "gg_length", 1) - 1); ++j) {
-                    current_statement_begin__ = 110;
+                    current_statement_begin__ = 111;
                     stan::model::assign(biomass_ts, 
                                 stan::model::cons_list(stan::model::index_uni((get_base1(gg_start, i, "gg_start", 1) + j)), stan::model::nil_index_list()), 
                                 (get_base1(biomass_ts, ((get_base1(gg_start, i, "gg_start", 1) + j) - 1), "biomass_ts", 1) - get_base1(caught, ((get_base1(gg_start, i, "gg_start", 1) + j) - 1), "caught", 1)), 
                                 "assigning variable biomass_ts");
                 }
             }
-            current_statement_begin__ = 114;
-            stan::math::assign(q, stan::math::exp(lnq));
             current_statement_begin__ = 115;
+            stan::math::assign(q, stan::math::exp(lnq));
+            current_statement_begin__ = 116;
             stan::math::assign(s, stan::math::exp(lns));
             // validate transformed parameters
             const char* function__ = "validate transformed params";
@@ -751,6 +757,12 @@ public:
                 }
             }
             current_statement_begin__ = 104;
+            if (stan::math::is_uninitialized(lnB0_mean)) {
+                std::stringstream msg__;
+                msg__ << "Undefined transformed parameter: lnB0_mean";
+                stan::lang::rethrow_located(std::runtime_error(std::string("Error initializing variable lnB0_mean: ") + msg__.str()), current_statement_begin__, prog_reader__());
+            }
+            current_statement_begin__ = 105;
             size_t biomass_ts_j_1_max__ = N;
             for (size_t j_1__ = 0; j_1__ < biomass_ts_j_1_max__; ++j_1__) {
                 if (stan::math::is_uninitialized(biomass_ts(j_1__))) {
@@ -761,98 +773,101 @@ public:
             }
             // model body
             {
-            current_statement_begin__ = 119;
+            current_statement_begin__ = 120;
             validate_non_negative_index("dyn_pars", "2", 2);
             std::vector<local_scalar_t__  > dyn_pars(2, local_scalar_t__(DUMMY_VAR__));
             stan::math::initialize(dyn_pars, DUMMY_VAR__);
             stan::math::fill(dyn_pars, DUMMY_VAR__);
-            current_statement_begin__ = 120;
+            current_statement_begin__ = 121;
             validate_non_negative_index("state", "1", 1);
             std::vector<local_scalar_t__  > state(1, local_scalar_t__(DUMMY_VAR__));
             stan::math::initialize(state, DUMMY_VAR__);
             stan::math::fill(state, DUMMY_VAR__);
-            current_statement_begin__ = 121;
+            current_statement_begin__ = 122;
             validate_non_negative_index("biomass_expected", "N", N);
             validate_non_negative_index("biomass_expected", "1", 1);
             std::vector<std::vector<local_scalar_t__  >  > biomass_expected(N, std::vector<local_scalar_t__>(1, local_scalar_t__(DUMMY_VAR__)));
             stan::math::initialize(biomass_expected, DUMMY_VAR__);
             stan::math::fill(biomass_expected, DUMMY_VAR__);
-            current_statement_begin__ = 122;
+            current_statement_begin__ = 123;
             validate_non_negative_index("cpue_expected", "N", N);
             Eigen::Matrix<local_scalar_t__, Eigen::Dynamic, 1> cpue_expected(N);
             stan::math::initialize(cpue_expected, DUMMY_VAR__);
             stan::math::fill(cpue_expected, DUMMY_VAR__);
-            current_statement_begin__ = 125;
-            lp_accum__.add(lognormal_log<propto__>(B0_mean, B0_logmean_prior, B0_logmean_prior_sd));
             current_statement_begin__ = 126;
-            lp_accum__.add(normal_log<propto__>(lnq_mean, lnq_mean_prior, lnq_mean_prior_sd));
+            lp_accum__.add(lognormal_log<propto__>(B0_mean, B0_logmean_prior, B0_logmean_prior_sd));
             current_statement_begin__ = 127;
+            lp_accum__.add(normal_log<propto__>(lnq_mean, lnq_mean_prior, lnq_mean_prior_sd));
+            current_statement_begin__ = 128;
             lp_accum__.add(normal_log<propto__>(lns_mean, lns_mean_prior, lns_mean_prior_sd));
-            current_statement_begin__ = 130;
-            lp_accum__.add(normal_log<propto__>(B0_group_logsd, 0, B0_group_prior_logsd));
             current_statement_begin__ = 131;
-            lp_accum__.add(normal_log<propto__>(lnq_group_sd, 0, lnq_group_prior_sd));
+            lp_accum__.add(normal_log<propto__>(B0_group_logsd, 0, B0_group_prior_logsd));
             current_statement_begin__ = 132;
+            lp_accum__.add(normal_log<propto__>(lnq_group_sd, 0, lnq_group_prior_sd));
+            current_statement_begin__ = 133;
             lp_accum__.add(normal_log<propto__>(lns_group_sd, 0, lns_group_prior_sd));
-            current_statement_begin__ = 135;
-            lp_accum__.add(lognormal_log<propto__>(B0, stan::math::log(B0_mean), B0_group_logsd));
             current_statement_begin__ = 136;
-            lp_accum__.add(normal_log<propto__>(lnq, lnq_mean, lnq_group_sd));
-            current_statement_begin__ = 137;
-            lp_accum__.add(normal_log<propto__>(lns, lns_mean, lns_group_sd));
+            for (int i = 1; i <= get_base1(G, 1, "G", 1); ++i) {
+                current_statement_begin__ = 138;
+                lp_accum__.add(lognormal_log(get_base1(B0, i, "B0", 1), lnB0_mean, B0_group_logsd));
+            }
             current_statement_begin__ = 140;
+            lp_accum__.add(normal_log<propto__>(lnq, lnq_mean, lnq_group_sd));
+            current_statement_begin__ = 141;
+            lp_accum__.add(normal_log<propto__>(lns, lns_mean, lns_group_sd));
+            current_statement_begin__ = 144;
             lp_accum__.add(normal_log<propto__>(cpue_process_error, 0, cpue_process_error_prior_sd));
-            current_statement_begin__ = 142;
+            current_statement_begin__ = 146;
             for (int g = 1; g <= get_base1(G, 1, "G", 1); ++g) {
                 {
-                current_statement_begin__ = 143;
+                current_statement_begin__ = 147;
                 int g_start(0);
                 (void) g_start;  // dummy to suppress unused var warning
                 stan::math::fill(g_start, std::numeric_limits<int>::min());
                 stan::math::assign(g_start,get_base1(gg_start, g, "gg_start", 1));
-                current_statement_begin__ = 144;
+                current_statement_begin__ = 148;
                 int g_end(0);
                 (void) g_end;  // dummy to suppress unused var warning
                 stan::math::fill(g_end, std::numeric_limits<int>::min());
                 stan::math::assign(g_end,get_base1(gg_end, g, "gg_end", 1));
-                current_statement_begin__ = 147;
+                current_statement_begin__ = 151;
                 int B0_current(0);
                 (void) B0_current;  // dummy to suppress unused var warning
                 stan::math::fill(B0_current, std::numeric_limits<int>::min());
                 stan::math::assign(B0_current,get_base1(get_base1(gg, g_start, "gg", 1), 1, "gg", 2));
-                current_statement_begin__ = 148;
+                current_statement_begin__ = 152;
                 int lnq_current(0);
                 (void) lnq_current;  // dummy to suppress unused var warning
                 stan::math::fill(lnq_current, std::numeric_limits<int>::min());
                 stan::math::assign(lnq_current,get_base1(get_base1(gg, g_start, "gg", 1), 2, "gg", 2));
-                current_statement_begin__ = 149;
+                current_statement_begin__ = 153;
                 int lns_current(0);
                 (void) lns_current;  // dummy to suppress unused var warning
                 stan::math::fill(lns_current, std::numeric_limits<int>::min());
                 stan::math::assign(lns_current,get_base1(get_base1(gg, g_start, "gg", 1), 3, "gg", 2));
-                current_statement_begin__ = 150;
+                current_statement_begin__ = 154;
                 stan::model::assign(dyn_pars, 
                             stan::model::cons_list(stan::model::index_uni(1), stan::model::nil_index_list()), 
                             get_base1(q, lnq_current, "q", 1), 
                             "assigning variable dyn_pars");
-                current_statement_begin__ = 151;
+                current_statement_begin__ = 155;
                 stan::model::assign(dyn_pars, 
                             stan::model::cons_list(stan::model::index_uni(2), stan::model::nil_index_list()), 
                             get_base1(s, lns_current, "s", 1), 
                             "assigning variable dyn_pars");
-                current_statement_begin__ = 152;
+                current_statement_begin__ = 156;
                 for (int n = g_start; n <= g_end; ++n) {
-                    current_statement_begin__ = 153;
+                    current_statement_begin__ = 157;
                     stan::model::assign(state, 
                                 stan::model::cons_list(stan::model::index_uni(1), stan::model::nil_index_list()), 
                                 get_base1(biomass_ts, n, "biomass_ts", 1), 
                                 "assigning variable state");
-                    current_statement_begin__ = 154;
+                    current_statement_begin__ = 158;
                     stan::model::assign(biomass_expected, 
                                 stan::model::cons_list(stan::model::index_min_max(n, n), stan::model::nil_index_list()), 
                                 integrate_ode_rk45(saturating_dynamics_functor__(), state, 0, stan::model::rvalue(effort, stan::model::cons_list(stan::model::index_min_max(n, n), stan::model::nil_index_list()), "effort"), dyn_pars, x_r, x_i, pstream__), 
                                 "assigning variable biomass_expected");
-                    current_statement_begin__ = 157;
+                    current_statement_begin__ = 161;
                     stan::model::assign(cpue_expected, 
                                 stan::model::cons_list(stan::model::index_uni(n), stan::model::nil_index_list()), 
                                 ((get_base1(biomass_ts, n, "biomass_ts", 1) - get_base1(get_base1(biomass_expected, n, "biomass_expected", 1), 1, "biomass_expected", 2)) / get_base1(effort, n, "effort", 1)), 
@@ -860,7 +875,7 @@ public:
                 }
                 }
             }
-            current_statement_begin__ = 161;
+            current_statement_begin__ = 165;
             lp_accum__.add(normal_log<propto__>(cpue_obs, cpue_expected, cpue_process_error));
             }
         } catch (const std::exception& e) {
@@ -896,6 +911,7 @@ public:
         names__.push_back("q");
         names__.push_back("s");
         names__.push_back("B0");
+        names__.push_back("lnB0_mean");
         names__.push_back("biomass_ts");
         names__.push_back("cpue_fit");
     }
@@ -933,6 +949,8 @@ public:
         dimss__.push_back(dims__);
         dims__.resize(0);
         dims__.push_back(get_base1(G, 1, "G", 1));
+        dimss__.push_back(dims__);
+        dims__.resize(0);
         dimss__.push_back(dims__);
         dims__.resize(0);
         dims__.push_back(N);
@@ -1009,30 +1027,36 @@ public:
             stan::math::fill(B0, DUMMY_VAR__);
             stan::math::assign(B0,add(B0_raw, total_caught));
             current_statement_begin__ = 104;
+            double lnB0_mean;
+            (void) lnB0_mean;  // dummy to suppress unused var warning
+            stan::math::initialize(lnB0_mean, DUMMY_VAR__);
+            stan::math::fill(lnB0_mean, DUMMY_VAR__);
+            stan::math::assign(lnB0_mean,stan::math::log(B0_mean));
+            current_statement_begin__ = 105;
             validate_non_negative_index("biomass_ts", "N", N);
             Eigen::Matrix<double, Eigen::Dynamic, 1> biomass_ts(N);
             stan::math::initialize(biomass_ts, DUMMY_VAR__);
             stan::math::fill(biomass_ts, DUMMY_VAR__);
             // do transformed parameters statements
-            current_statement_begin__ = 105;
+            current_statement_begin__ = 106;
             for (int i = 1; i <= get_base1(G, 1, "G", 1); ++i) {
-                current_statement_begin__ = 106;
+                current_statement_begin__ = 107;
                 stan::model::assign(biomass_ts, 
                             stan::model::cons_list(stan::model::index_uni(get_base1(gg_start, i, "gg_start", 1)), stan::model::nil_index_list()), 
                             get_base1(B0, i, "B0", 1), 
                             "assigning variable biomass_ts");
-                current_statement_begin__ = 107;
+                current_statement_begin__ = 108;
                 for (int j = 1; j <= (get_base1(gg_length, i, "gg_length", 1) - 1); ++j) {
-                    current_statement_begin__ = 110;
+                    current_statement_begin__ = 111;
                     stan::model::assign(biomass_ts, 
                                 stan::model::cons_list(stan::model::index_uni((get_base1(gg_start, i, "gg_start", 1) + j)), stan::model::nil_index_list()), 
                                 (get_base1(biomass_ts, ((get_base1(gg_start, i, "gg_start", 1) + j) - 1), "biomass_ts", 1) - get_base1(caught, ((get_base1(gg_start, i, "gg_start", 1) + j) - 1), "caught", 1)), 
                                 "assigning variable biomass_ts");
                 }
             }
-            current_statement_begin__ = 114;
-            stan::math::assign(q, stan::math::exp(lnq));
             current_statement_begin__ = 115;
+            stan::math::assign(q, stan::math::exp(lnq));
+            current_statement_begin__ = 116;
             stan::math::assign(s, stan::math::exp(lns));
             if (!include_gqs__ && !include_tparams__) return;
             // validate transformed parameters
@@ -1052,6 +1076,7 @@ public:
                 for (size_t j_1__ = 0; j_1__ < B0_j_1_max__; ++j_1__) {
                     vars__.push_back(B0(j_1__));
                 }
+                vars__.push_back(lnB0_mean);
                 size_t biomass_ts_j_1_max__ = N;
                 for (size_t j_1__ = 0; j_1__ < biomass_ts_j_1_max__; ++j_1__) {
                     vars__.push_back(biomass_ts(j_1__));
@@ -1059,80 +1084,80 @@ public:
             }
             if (!include_gqs__) return;
             // declare and define generated quantities
-            current_statement_begin__ = 165;
+            current_statement_begin__ = 169;
             validate_non_negative_index("cpue_fit", "N", N);
             Eigen::Matrix<double, Eigen::Dynamic, 1> cpue_fit(N);
             stan::math::initialize(cpue_fit, DUMMY_VAR__);
             stan::math::fill(cpue_fit, DUMMY_VAR__);
             // generated quantities statements
             {
-            current_statement_begin__ = 167;
+            current_statement_begin__ = 171;
             validate_non_negative_index("biomass_expected_ts", "N", N);
             validate_non_negative_index("biomass_expected_ts", "1", 1);
             std::vector<std::vector<local_scalar_t__  >  > biomass_expected_ts(N, std::vector<local_scalar_t__>(1, local_scalar_t__(DUMMY_VAR__)));
             stan::math::initialize(biomass_expected_ts, DUMMY_VAR__);
             stan::math::fill(biomass_expected_ts, DUMMY_VAR__);
-            current_statement_begin__ = 168;
+            current_statement_begin__ = 172;
             for (int g = 1; g <= get_base1(G, 1, "G", 1); ++g) {
                 {
-                current_statement_begin__ = 169;
+                current_statement_begin__ = 173;
                 validate_non_negative_index("dyn_pars", "2", 2);
                 std::vector<local_scalar_t__  > dyn_pars(2, local_scalar_t__(DUMMY_VAR__));
                 stan::math::initialize(dyn_pars, DUMMY_VAR__);
                 stan::math::fill(dyn_pars, DUMMY_VAR__);
-                current_statement_begin__ = 170;
+                current_statement_begin__ = 174;
                 validate_non_negative_index("state", "1", 1);
                 std::vector<local_scalar_t__  > state(1, local_scalar_t__(DUMMY_VAR__));
                 stan::math::initialize(state, DUMMY_VAR__);
                 stan::math::fill(state, DUMMY_VAR__);
-                current_statement_begin__ = 171;
+                current_statement_begin__ = 175;
                 int g_start(0);
                 (void) g_start;  // dummy to suppress unused var warning
                 stan::math::fill(g_start, std::numeric_limits<int>::min());
                 stan::math::assign(g_start,get_base1(gg_start, g, "gg_start", 1));
-                current_statement_begin__ = 172;
+                current_statement_begin__ = 176;
                 int g_end(0);
                 (void) g_end;  // dummy to suppress unused var warning
                 stan::math::fill(g_end, std::numeric_limits<int>::min());
                 stan::math::assign(g_end,get_base1(gg_end, g, "gg_end", 1));
-                current_statement_begin__ = 175;
+                current_statement_begin__ = 179;
                 int B0_current(0);
                 (void) B0_current;  // dummy to suppress unused var warning
                 stan::math::fill(B0_current, std::numeric_limits<int>::min());
                 stan::math::assign(B0_current,get_base1(get_base1(gg, g_start, "gg", 1), 1, "gg", 2));
-                current_statement_begin__ = 176;
+                current_statement_begin__ = 180;
                 int lnq_current(0);
                 (void) lnq_current;  // dummy to suppress unused var warning
                 stan::math::fill(lnq_current, std::numeric_limits<int>::min());
                 stan::math::assign(lnq_current,get_base1(get_base1(gg, g_start, "gg", 1), 2, "gg", 2));
-                current_statement_begin__ = 177;
+                current_statement_begin__ = 181;
                 int lns_current(0);
                 (void) lns_current;  // dummy to suppress unused var warning
                 stan::math::fill(lns_current, std::numeric_limits<int>::min());
                 stan::math::assign(lns_current,get_base1(get_base1(gg, g_start, "gg", 1), 3, "gg", 2));
-                current_statement_begin__ = 178;
+                current_statement_begin__ = 182;
                 stan::model::assign(state, 
                             stan::model::cons_list(stan::model::index_uni(1), stan::model::nil_index_list()), 
                             get_base1(B0, B0_current, "B0", 1), 
                             "assigning variable state");
-                current_statement_begin__ = 179;
+                current_statement_begin__ = 183;
                 stan::model::assign(dyn_pars, 
                             stan::model::cons_list(stan::model::index_uni(1), stan::model::nil_index_list()), 
                             get_base1(q, lnq_current, "q", 1), 
                             "assigning variable dyn_pars");
-                current_statement_begin__ = 180;
+                current_statement_begin__ = 184;
                 stan::model::assign(dyn_pars, 
                             stan::model::cons_list(stan::model::index_uni(2), stan::model::nil_index_list()), 
                             get_base1(s, lns_current, "s", 1), 
                             "assigning variable dyn_pars");
-                current_statement_begin__ = 181;
+                current_statement_begin__ = 185;
                 stan::model::assign(biomass_expected_ts, 
                             stan::model::cons_list(stan::model::index_min_max(g_start, g_end), stan::model::nil_index_list()), 
                             integrate_ode_rk45(saturating_dynamics_functor__(), state, 0, cumulative_sum(stan::model::rvalue(effort, stan::model::cons_list(stan::model::index_min_max(g_start, g_end), stan::model::nil_index_list()), "effort")), dyn_pars, x_r, x_i, pstream__), 
                             "assigning variable biomass_expected_ts");
-                current_statement_begin__ = 183;
+                current_statement_begin__ = 187;
                 for (int n = g_start; n <= g_end; ++n) {
-                    current_statement_begin__ = 184;
+                    current_statement_begin__ = 188;
                     stan::model::assign(cpue_fit, 
                                 stan::model::cons_list(stan::model::index_uni(n), stan::model::nil_index_list()), 
                                 ((get_base1(q, lnq_current, "q", 1) * get_base1(get_base1(biomass_expected_ts, n, "biomass_expected_ts", 1), 1, "biomass_expected_ts", 2)) / (1 + ((get_base1(q, lnq_current, "q", 1) / get_base1(s, lns_current, "s", 1)) * get_base1(get_base1(biomass_expected_ts, n, "biomass_expected_ts", 1), 1, "biomass_expected_ts", 2)))), 
@@ -1142,7 +1167,7 @@ public:
             }
             }
             // validate, write generated quantities
-            current_statement_begin__ = 165;
+            current_statement_begin__ = 169;
             size_t cpue_fit_j_1_max__ = N;
             for (size_t j_1__ = 0; j_1__ < cpue_fit_j_1_max__; ++j_1__) {
                 vars__.push_back(cpue_fit(j_1__));
@@ -1236,6 +1261,9 @@ public:
                 param_name_stream__ << "B0" << '.' << j_1__ + 1;
                 param_names__.push_back(param_name_stream__.str());
             }
+            param_name_stream__.str(std::string());
+            param_name_stream__ << "lnB0_mean";
+            param_names__.push_back(param_name_stream__.str());
             size_t biomass_ts_j_1_max__ = N;
             for (size_t j_1__ = 0; j_1__ < biomass_ts_j_1_max__; ++j_1__) {
                 param_name_stream__.str(std::string());
@@ -1314,6 +1342,9 @@ public:
                 param_name_stream__ << "B0" << '.' << j_1__ + 1;
                 param_names__.push_back(param_name_stream__.str());
             }
+            param_name_stream__.str(std::string());
+            param_name_stream__ << "lnB0_mean";
+            param_names__.push_back(param_name_stream__.str());
             size_t biomass_ts_j_1_max__ = N;
             for (size_t j_1__ = 0; j_1__ < biomass_ts_j_1_max__; ++j_1__) {
                 param_name_stream__.str(std::string());
