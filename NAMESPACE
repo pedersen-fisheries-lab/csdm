@@ -3,6 +3,7 @@
 export(csdm)
 import(Rcpp)
 import(methods)
+importClassesFrom(Matrix,ngTMatrix)
 importFrom(rstan,sampling)
 importFrom(stats,terms)
 useDynLib(csdm, .registration = TRUE)
