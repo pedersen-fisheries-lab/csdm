@@ -10,8 +10,8 @@
 #'   \item{traps}{Number of traps.}
 #'   \item{cpue}{Catch per unit effort, such as `cpue = catch_pounds/traps`}
 #'   \item{traps_cum}{Number of traps, cumulated.}
-#'   \item{cpue_l}{}
-#'   \item{cpue_l10}{}
+#'   \item{cpue_l}{Natural log of cpue.}
+#'   \item{cpue_l10}{Log 10 of cpue.}
 #' }
 #' @source \url{https://www.jstor.org/stable/3001390}
 "delury_lobster"

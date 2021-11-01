@@ -12,8 +12,8 @@ A data frame with 33 rows and 7 variables:
 \item{traps}{Number of traps.}
 \item{cpue}{Catch per unit effort, such as \code{cpue = catch_pounds/traps}}
 \item{traps_cum}{Number of traps, cumulated.}
-\item{cpue_l}{}
-\item{cpue_l10}{}
+\item{cpue_l}{Natural log of cpue.}
+\item{cpue_l10}{Log 10 of cpue.}
 }
 }
 \source{
