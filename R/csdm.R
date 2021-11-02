@@ -114,7 +114,9 @@ csdm <- function(catch = catch,
                        lns_range = c(log(lower[["s"]]), log(upper[["s"]]))),
                   model_priors)
 
-  model_samples <- csdm_stan(data = model_data, ...)
+  model_fit <- csdm_stan(data = model_data, ...)
 
-  return(model_samples)
+  csdm_fit <- new_csdm_fit(data = data, fit = model_fit)
+
+  return(csdm_fit)
 }
