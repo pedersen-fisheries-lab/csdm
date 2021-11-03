@@ -41,7 +41,7 @@ delury <- csdm::delury_lobster
 
 2. Let's run the model.
 
-```{r echo=FALSE}
+```{r}
 delury_model <- csdm(catch = cpue,
                      effort = traps,
                      biomass = ~1,
