@@ -41,7 +41,7 @@ delury <- csdm::delury_lobster
 
 2. Let's run the model.
 
-```{r}
+```{r echo=FALSE}
 delury_model <- csdm(catch = cpue,
                      effort = traps,
                      biomass = ~1,
@@ -55,3 +55,21 @@ delury_model <- csdm(catch = cpue,
                      iter = 1000)
 ```
 
+3. You can extract the fit for cpue, as well as the biomass estimate.
+
+```{r}
+get_cpue_fit(delury_model)
+```
+
+```{r}
+get_biomass(delury_model)
+```
+
+4. You can also get default plots for cpue and biomass.
+
+```{r}
+plot(delury_model)
+```
+```{r}
+plot_biomass(delury_model)
+```
