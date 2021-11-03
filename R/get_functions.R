@@ -7,8 +7,7 @@ get_cpue_fit <- function(csdm_fit){
   cpue_fit <- csdm_fit$fit %>%
     tidybayes::spread_draws(cpue_fit[t]) %>%
     tidybayes::median_qi(.) %>%
-    dplyr::bind_cols(csdm_fit$data) %>%
-    dplyr::select(-.data$t)
+    dplyr::bind_cols(csdm_fit$data)
 
   return(cpue_fit)
 
