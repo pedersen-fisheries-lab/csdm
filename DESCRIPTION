@@ -21,7 +21,8 @@ Imports:
     checkmate,
     dplyr,
     tidybayes,
-    magrittr
+    magrittr,
+    rlang
 Suggests:
     ggplot2
 LinkingTo: 
