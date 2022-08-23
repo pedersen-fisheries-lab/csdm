@@ -37,47 +37,11 @@ You can install the development version from [GitHub](https://github.com/) with:
 # install.packages("devtools")
 devtools::install_github("pedersen-fisheries-lab/csdm")
 ```
-## Example
 
-1. Let's use the data provided in the package and taken from Delury's population
-estimator data.
+## Vignette
 
-```{r}
-library(csdm)
-delury <- csdm::delury_lobster
-```
+See the vignette for an introduction to the `csdm` package
 
-2. Let's run the model.
-
-```{r}
-delury_model <- csdm(catch = cpue,
-                     effort = traps,
-                     biomass = ~1,
-                     q = ~1,
-                     s = ~1,
-                     data = delury,
-                     prior = list(B0_logmean_prior_sd = log(1000),
-                                  B0_group_prior_logsd = log(100)),
-                     upper =  c(B0 = 1e10, q = 1e-3, s = 100),
-                     chains = 4,
-                     iter = 1000)
-```
-
-3. You can extract the fit for cpue, as well as the biomass estimate.
-
-```{r}
-get_cpue_fit(delury_model)
-```
-
-```{r}
-get_biomass(delury_model)
-```
-
-4. You can also get default plots for cpue and biomass.
-
-```{r}
-plot(delury_model)
-```
-```{r}
-plot_biomass(delury_model)
+```{r, eval=FALSE}
+browseVignettes("sspm")
 ```

@@ -4,3 +4,4 @@
 *.so
 renv
 renv.lock
+inst/doc

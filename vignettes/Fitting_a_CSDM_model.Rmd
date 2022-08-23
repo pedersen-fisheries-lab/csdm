@@ -1,0 +1,61 @@
+---
+title: "Fitting a CSDM model"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{Fitting_a_CSDM_model}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>"
+)
+```
+
+```{r setup}
+library(csdm)
+```
+
+1. Let's use the data provided in the package and taken from Delury's population
+estimator data.
+
+```{r}
+delury <- csdm::delury_lobster
+```
+
+2. Let's run the model.
+
+```{r}
+delury_model <- csdm(catch = cpue,
+                     effort = traps,
+                     biomass = ~1,
+                     q = ~1,
+                     s = ~1,
+                     data = delury,
+                     prior = list(B0_logmean_prior_sd = log(1000),
+                                  B0_group_prior_logsd = log(100)),
+                     upper =  c(B0 = 1e10, q = 1e-3, s = 100),
+                     chains = 4,
+                     iter = 1000)
+```
+
+3. You can extract the fit for cpue, as well as the biomass estimate.
+
+```{r}
+get_cpue_fit(delury_model)
+```
+
+```{r}
+get_biomass(delury_model)
+```
+
+4. You can also get default plots for cpue and biomass.
+
+```{r}
+plot(delury_model)
+```
+```{r}
+plot_biomass(delury_model)
+```
