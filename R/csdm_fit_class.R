@@ -2,6 +2,7 @@
 # Imports -----------------------------------------------------------------
 
 #' @importFrom rlang .data
+utils::globalVariables(c("biomass_ts"))
 NULL
 
 # CSDM class object -------------------------------------------------------
