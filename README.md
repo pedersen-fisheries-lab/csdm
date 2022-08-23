@@ -39,5 +39,5 @@ devtools::install_github("pedersen-fisheries-lab/csdm")
 See the vignette for an introduction to the `csdm` package
 
 ``` r
-browseVignettes("sspm")
+browseVignettes("csdm")
 ```
