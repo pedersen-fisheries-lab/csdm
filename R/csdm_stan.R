@@ -8,6 +8,11 @@
 #' @return
 #' An object of class `stanfit` returned by [sampling][rstan::sampling].
 #'
+#' @examples
+#' \dontrun{
+#' model_fit <- csdm_stan(data = model_data, ...)
+#' }
+#'
 csdm_stan <- function(data, ...) {
 
   checkmate::assert_list(data)

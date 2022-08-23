@@ -17,3 +17,9 @@ An object of class \code{stanfit} returned by \link[rstan:stanmodel-method-sampl
 \description{
 Stan routine for the catch saturation-depletion model.
 }
+\examples{
+\dontrun{
+model_fit <- csdm_stan(data = model_data, ...)
+}
+
+}

@@ -46,5 +46,21 @@ An object of class \code{stanfit} returned by \code{rstan::sampling}.
 Catch saturation-depletion model.
 }
 \details{
-TODO: describe model + priors.
+NA
+}
+\examples{
+\dontrun{
+delury_model <- csdm(catch = cpue,
+                     effort = traps,
+                     biomass = ~1,
+                     q = ~1,
+                     s = ~1,
+                     data = delury,
+                     prior = list(B0_logmean_prior_sd = log(1000),
+                                  B0_group_prior_logsd = log(100)),
+                     upper =  c(B0 = 1e10, q = 1e-3, s = 100),
+                     chains = 4,
+                     iter = 1000)
+}
+
 }
