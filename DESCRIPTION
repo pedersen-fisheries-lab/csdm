@@ -28,7 +28,8 @@ Imports:
 Suggests:
     ggplot2,
     knitr,
-    rmarkdown
+    rmarkdown,
+    testthat (>= 3.0.0)
 LinkingTo: 
     BH (>= 1.66.0),
     Rcpp (>= 0.12.0),
@@ -39,3 +40,4 @@ LinkingTo:
 SystemRequirements: GNU make
 LazyData: true
 VignetteBuilder: knitr
+Config/testthat/edition: 3
