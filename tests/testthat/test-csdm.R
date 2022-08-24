@@ -16,7 +16,7 @@ test_that("package fit csdm model correctly", {
 
   checkmate::expect_data_frame(get_biomass(fit))
 
-  checkmate::expect_class(plot(delury_model), "gg")
+  checkmate::expect_class(plot(fit), "gg")
 
-  checkmate::expect_class(plot_biomass(delury_model), "gg")
+  checkmate::expect_class(plot_biomass(fit), "gg")
 })
