@@ -11,4 +11,12 @@ test_that("package fit csdm model correctly", {
               chains = 4,
               iter = 1000)
   checkmate::expect_class(fit, "csdm_fit")
+
+  checkmate::expect_data_frame(get_cpue_fit(fit))
+
+  checkmate::get_biomass(get_cpue_fit(fit))
+
+  checkmate::expect_class(plot(delury_model), "gg")
+
+  checkmate::expect_class(plot_biomass(delury_model), "gg")
 })
